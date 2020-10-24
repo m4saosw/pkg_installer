@@ -1,0 +1,2 @@
+# informar aqui um comando em shellscript, por exemplo para fazer um replace (sed) de valor por outro no arquivo corrente
+# utilizar a variavel $FILE para fazer auto-referencia ao proprio arquivo, se necessario
