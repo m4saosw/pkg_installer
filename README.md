@@ -1,47 +1,67 @@
 # pkg_installer
-Custom package installer - devops tools
+Custom packages installer - a devops tool
 
-Uma ferramenta de instalação customizável de pacotes de aplicações para hosts rodando em ambientes Linux.
-Provê uma infraestrutura basica de operações comuns para serem utilizadas em sustentação de aplicações, como manipulação de arquivos e diretórios (cópia, alteração de configurações, exclusão de arquivos e diretórios).
+A customizable package installation tool, entirelly made by shellscript, running by command line, for enterprise application running in a Linux environment.
+Provides a high level infrastructure for common file and directory manipulation operations, assisting with maintanance tasks of enterprise applications.
 
-
-## Características
-- Instalação e desinstalação para arquivos e diretórios no sistema operacional
-- Instalação e desinstalação para bancos de dados por meio de scripts (DDL e SQL)
-- Logs de acompanhamento operacional
-- Capacidade de instalação multi-ambiente, isto é, com diferenciação para hosts de desenvolvimento, integração, homologação, produção
-- Orientado a templates para maior produtividade.
-- Operações de manipulação de arquivos e diretórios baseadas em tags intuitivas
+## Features
+- Install and uninstall files, directories and also database scripts to maintain a database (scripts DML or DDL);
+- Logging output;
+- Multi-environment concept: the same package can be installed in any host category such as: development, integration and production; and the tool manages which commands are applied to each of them;
+- Structure oriented to template, for better productivity;
+- Easy tag-based sintax for the most common commands;
 
 
-## Tecnologias
+## Technology
     Shellscript Bash
 
 
-## Execução
+## How to use
 ```
-$ install.sh  <tipo de operacao>
+$ install.sh  <type>
 ```
-**Parâmetros:**
-1. tipo de operacao  - start ou validate
+**Parameters:**
+start OR validate
 
 
-**Exemplos:**
-Executa em modo de varredura interna buscando configurações incorretas. Esta execução é recomendada durante a fase de desenvolvimento do pacote.
+**Examples:**
+
+1) To check for wrong settings. This option is recommended for the development phase.
 ```
 $ install.sh  validate
 ```
 
-Executa a instalação
+2) To perform the installation
 ```
 $ install.sh  start
 ```
 
+**Example of internal package structure**
 
-## Configurações
+In this example, the package's structure directory does some operations on the target hosts:
+- edits the content of a file on the ENGINE_CLI host;
+- removes a file on the ENGINE_CLI host;
+- copy a new file to a specific path in ENGINE_LOCAL host;
+- removes all files from a directory;
+- removes a entire directory at the destination;
+
+```
+files/so/commands/ambiente/{ENGINE_CLI}/{modify}/umdiretoriodamaquina/umsubdiretorio/umarquivoaseralterado.txt
+files/so/commands/ambiente/{ENGINE_CLI}/{remove_file}/umarquivoaexcluir.txt
+files/so/commands/ambiente/{ENGINE_LOCAL}/{copy}/{product_path}/engine/instance/1/configuration/um novo arquivo.txt
+files/so/commands/ambiente/{ENGINE_LOCAL}/{remove_all}/umdiretoriocujosarquivosseraoexcluidosinternamente
+files/so/commands/ambiente/{ENGINE_LOCAL}/{remove_dir}/umdiretorioaexcluirporcompleto
+```
+
+
+## Configuration
 ***hosts.properties***
-Permite a definição dos hosts e categorias de ambientes.
+Host configuration using tags that identify hosts categories.
 
 
 ***installer.properties***
-Permite a definição de hosts mock para teste de instalação.
+Other configurations, such as like simulation to support the test installation during the development phase.
+
+
+## Considerations
+The current version does not support connecting to multiple hosts. It is necessary to run the script on each of the desirables hosts.
